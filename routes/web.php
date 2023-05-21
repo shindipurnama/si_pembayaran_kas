@@ -14,8 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard');
 });
+
+Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+Route::get('/tagihan', [\App\Http\Controllers\TagihanController::class, 'index'])->name('tagihan');
 
 Auth::routes();
 
