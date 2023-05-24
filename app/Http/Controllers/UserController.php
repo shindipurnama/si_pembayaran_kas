@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class PembayaranController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class PembayaranController extends Controller
     public function index()
     {
         //
-        return view('pembayaran');
+        return view('user');
     }
 
     /**
@@ -25,7 +25,7 @@ class PembayaranController extends Controller
     public function create()
     {
         //
-        return view('laporanPembayaran');
+        return view('profile');
     }
 
     /**

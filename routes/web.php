@@ -18,7 +18,10 @@ Route::get('/', function () {
 });
 
 Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
-Route::get('/tagihan', [\App\Http\Controllers\TagihanController::class, 'index'])->name('tagihan');
+Route::resource('tagihan', \App\Http\Controllers\TagihanController::class);
+Route::resource('pembayaran', \App\Http\Controllers\PembayaranController::class);
+Route::resource('user', \App\Http\Controllers\UserController::class);
+Route::resource('role', \App\Http\Controllers\RoleController::class);
 
 Auth::routes();
 

@@ -5,8 +5,8 @@
             aria-hidden="true" id="iconSidenav"></i>
         <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html "
             target="_blank">
-            <img src="./assets/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo">
-            <span class="ms-1 font-weight-bold">Argon Dashboard 2</span>
+            <img src="{{ asset('/assets/img/logo-ct.png')}}" class="navbar-brand-img h-100" alt="main_logo">
+            <span class="ms-1 font-weight-bold">SI - Pembayaran Kas</span>
         </a>
     </div>
     <hr class="horizontal dark mt-0">
@@ -22,7 +22,25 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="nav-link-tagihan" href="{{route('tagihan')}}">
+                <a class="nav-link" id="nav-link-role" href="{{route('role.index')}}">
+                    <div
+                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-briefcase-24 text-info text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Role</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="nav-link-user" href="{{route('user.index')}}">
+                    <div
+                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-circle-08 text-warning text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">User</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="nav-link-tagihan" href="{{route('tagihan.index')}}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-credit-card text-danger text-sm opacity-10"></i>
@@ -31,7 +49,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="nav-link-pembayaran" href="./pages/billing.html">
+                <a class="nav-link" id="nav-link-pembayaran" href="{{route('pembayaran.index')}}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fas fa-dollar-sign text-success text-sm opacity-10"></i>
@@ -40,7 +58,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="nav-link-laporan-uang-masuk" href="./pages/virtual-reality.html">
+                <a class="nav-link" id="nav-link-laporan-uang-masuk" href="{{route('pembayaran.create')}}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fas fa-file-invoice-dollar text-primary text-sm opacity-10"></i>
@@ -49,7 +67,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="nav-link-laporan-tagihan" href="./pages/rtl.html">
+                <a class="nav-link" id="nav-link-laporan-tagihan" href="{{route('tagihan.create')}}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fas fa-receipt text-danger text-sm opacity-10"></i>
@@ -57,53 +75,6 @@
                     <span class="nav-link-text ms-1">Laporan Tagihan</span>
                 </a>
             </li>
-            <li class="nav-item mt-3">
-                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="./pages/profile.html">
-                    <div
-                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Profile</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="./pages/sign-in.html">
-                    <div
-                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="ni ni-single-copy-04 text-warning text-sm opacity-10"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Sign In</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="./pages/sign-up.html">
-                    <div
-                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="ni ni-collection text-info text-sm opacity-10"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Sign Up</span>
-                </a>
-            </li>
         </ul>
-    </div>
-    <div class="sidenav-footer mx-3 ">
-        <div class="card card-plain shadow-none" id="sidenavCard">
-            <img class="w-50 mx-auto" src="./assets/img/illustrations/icon-documentation.svg"
-                alt="sidebar_illustration">
-            <div class="card-body text-center p-3 w-100 pt-0">
-                <div class="docs-info">
-                    <h6 class="mb-0">Need help?</h6>
-                    <p class="text-xs font-weight-bold mb-0">Please check our docs</p>
-                </div>
-            </div>
-        </div>
-        <a href="https://www.creative-tim.com/learning-lab/bootstrap/license/argon-dashboard" target="_blank"
-            class="btn btn-dark btn-sm w-100 mb-3">Documentation</a>
-        <a class="btn btn-primary btn-sm mb-0 w-100"
-            href="https://www.creative-tim.com/product/argon-dashboard-pro?ref=sidebarfree" type="button">Upgrade
-            to pro</a>
     </div>
 </aside>
