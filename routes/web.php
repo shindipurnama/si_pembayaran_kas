@@ -14,15 +14,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('dashboard');
+    return view('login');
 });
-
-Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
-Route::resource('tagihan', \App\Http\Controllers\TagihanController::class);
-Route::resource('pembayaran', \App\Http\Controllers\PembayaranController::class);
-Route::resource('user', \App\Http\Controllers\UserController::class);
-Route::resource('role', \App\Http\Controllers\RoleController::class);
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::group(['middleware' => ['auth']], function() {
+    Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('tagihan', \App\Http\Controllers\TagihanController::class);
+    Route::resource('pembayaran', \App\Http\Controllers\PembayaranController::class);
+    Route::resource('user', \App\Http\Controllers\UserController::class);
+    Route::resource('role', \App\Http\Controllers\RoleController::class);
+
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+});
+

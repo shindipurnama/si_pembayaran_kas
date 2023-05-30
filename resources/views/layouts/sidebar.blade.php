@@ -21,6 +21,7 @@
                     <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
             </li>
+            @if (auth()->user()->role_id == 1)
             <li class="nav-item">
                 <a class="nav-link" id="nav-link-role" href="{{route('role.index')}}">
                     <div
@@ -39,6 +40,7 @@
                     <span class="nav-link-text ms-1">User</span>
                 </a>
             </li>
+            @endif
             <li class="nav-item">
                 <a class="nav-link" id="nav-link-tagihan" href="{{route('tagihan.index')}}">
                     <div
@@ -57,6 +59,7 @@
                     <span class="nav-link-text ms-1">Pembayaran</span>
                 </a>
             </li>
+            @if (auth()->user()->role_id == 1)
             <li class="nav-item">
                 <a class="nav-link" id="nav-link-laporan-uang-masuk" href="{{route('pembayaran.create')}}">
                     <div
@@ -75,6 +78,7 @@
                     <span class="nav-link-text ms-1">Laporan Tagihan</span>
                 </a>
             </li>
+            @endif
         </ul>
     </div>
 </aside>

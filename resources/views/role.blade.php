@@ -13,7 +13,7 @@
                     <h6>Data User</h6>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
-                    {{-- <div class="table-responsive"> --}}
+                    <div class="table-responsive">
                         <table id="tableTagihan" class="table align-items-center justify-content-center mb-0">
                             <thead>
                                 <tr>
@@ -25,16 +25,18 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($roles as $key => $role)
+
                                 <tr>
                                     <td>
                                         <div class="d-flex px-2">
                                             <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">1</h6>
+                                                <h6 class="mb-0 text-sm">{{$key+1}}</h6>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
-                                        <p class="text-sm font-weight-bold mb-0">Admin</p>
+                                        <p class="text-sm font-weight-bold mb-0">{{$role->role}}</p>
                                     </td>
                                     <td class="align-middle">
                                         <div class="dropdown">
@@ -42,38 +44,51 @@
                                                 <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
                                             </button>
                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-edit">Edit</a></li>
-                                              <li><a class="dropdown-item" href="#">Delete</a></li>
+                                              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-edit-{{$role->id}}">Edit</a></li>
+                                              <li>
+                                                <form action="{{ route('role.destroy', $role->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="dropdown-item" onclick="return confirm('Hapus data ini?')" type="submit" >Delete</button>
+                                                </form>
+                                            </li>
                                             </ul>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">2</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">User</p>
-                                    </td>
-                                    <td class="align-middle">
-                                        <div class="dropdown">
-                                            <button class="btn btn-link text-secondary mb-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
+                                <div class="modal fade" id="modal-edit-{{$role->id}}" tabindex="-1" role="dialog" aria-labelledby="modal-edit" aria-hidden="true">
+                                    <div class="modal-dialog modal- modal-dialog-centered modal-lg" role="document">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h6 class="modal-title" id="modal-title-default">Edit Tagihan</h6>
+                                            <button type="button" class="btn-close bg-dark" data-bs-dismiss="modal" aria-label="Close">
                                             </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-edit">Edit</a></li>
-                                              <li><a class="dropdown-item" href="#">Delete</a></li>
-                                            </ul>
                                         </div>
-                                    </td>
-                                </tr>
+                                        <form method="POST" action="{{ route('role.update',[$role->id]) }}">
+                                        @csrf
+                                        @method('PUT')
+                                            <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="example-text-input" class="form-control-label">Nama Role</label>
+                                                                <input type="text" class="form-control" name="role" value="{{$role->role}}" id="exampleFormControlInput1">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn bg-gradient-primary">Save changes</button>
+                                            </div>
+                                        </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
                             </tbody>
                         </table>
-                    {{-- </div> --}}
+                    </div>
                 </div>
             </div>
         </div>
@@ -87,53 +102,28 @@
                 <button type="button" class="btn-close bg-dark" data-bs-dismiss="modal" aria-label="Close">
                 </button>
             </div>
-            <div class="modal-body">
-                <form>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="example-text-input" class="form-control-label">Nama Role</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1">
+            <form method="POST" action="{{ route('role.store') }}">
+            @csrf
+                <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Nama Role</label>
+                                    <input type="text" name="role" class="form-control" id="exampleFormControlInput1">
+                                    <input type="hidden" name="status" value="1" class="form-control" id="exampleFormControlInput1">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn bg-gradient-primary">Save changes</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn bg-gradient-primary">Save changes</button>
+                </div>
+            </form>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-labelledby="modal-edit" aria-hidden="true">
-        <div class="modal-dialog modal- modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title" id="modal-title-default">Edit Tagihan</h6>
-                <button type="button" class="btn-close bg-dark" data-bs-dismiss="modal" aria-label="Close">
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="example-text-input" class="form-control-label">Nama Role</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1">
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn bg-gradient-primary">Save changes</button>
-            </div>
-            </div>
-        </div>
-    </div>
 
 @endsection
 

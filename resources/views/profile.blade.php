@@ -2,12 +2,15 @@
 
 @section('content')
 
+@php
+$userId = auth()->id().' - '.auth()->user()->name;
+@endphp
 <div class="card shadow-lg mx-4">
     <div class="card-body p-3">
       <div class="row gx-4">
         <div class="col-auto">
           <div class="avatar avatar-xl position-relative">
-            <img src="../assets/img/team-1.jpg" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+            <img src="{{ asset('/assets/img/team-1.jpg')}}" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
           </div>
         </div>
         <div class="col-auto my-auto">
@@ -18,6 +21,11 @@
             <p class="mb-0 font-weight-bold text-sm">
               Public Relations
             </p>
+          </div>
+        </div>
+        <div class="col-8" style="float:right" align="right">
+          <div class="avatar avatar-xl position-relative" style="float:right">
+            <img style="float:right" src="data:image/png;base64,{{DNS2D::getBarcodePNG($userId, "QRCODE", 3,3)}}">
           </div>
         </div>
       </div>

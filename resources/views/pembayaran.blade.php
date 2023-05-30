@@ -1,11 +1,13 @@
 @extends('index')
 
 @section('content')
-    <div class="row justify-content-end">
-        <div class="col-lg-3 col-xs-12 text-end">
-            <button type="button" class="btn btn-block bg-light mb-3" data-bs-toggle="modal" data-bs-target="#modal-default">Tambah Data</button>
+    @if (auth()->user()->role_id == 1)
+        <div class="row justify-content-end">
+            <div class="col-lg-3 col-xs-12 text-end">
+                <button type="button" class="btn btn-block bg-light mb-3" data-bs-toggle="modal" data-bs-target="#modal-default">Tambah Data</button>
+            </div>
         </div>
-    </div>
+    @endif
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">
@@ -27,7 +29,9 @@
                                         Jumlah Bayar</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                                         Status</th>
-                                    <th>action</th>
+                                    @if (auth()->user()->role_id == 1)
+                                        <th>action</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -51,6 +55,8 @@
                                     <td class="align-middle text-center">
                                         <span class="me-2 text-xs font-weight-bold badge bg-gradient-success">Valid</span>
                                     </td>
+
+                                    @if (auth()->user()->role_id == 1)
                                     <td class="align-middle">
                                         <div class="dropdown">
                                             <button class="btn btn-link text-secondary mb-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -63,6 +69,7 @@
                                             </ul>
                                         </div>
                                     </td>
+                                    @endif
                                 </tr>
                                 <tr>
                                     <td>
@@ -84,6 +91,7 @@
                                     <td class="align-middle text-center">
                                         <span class="me-2 text-xs font-weight-bold badge bg-gradient-danger">Invalid</span>
                                     </td>
+                                    @if (auth()->user()->role_id == 1)
                                     <td class="align-middle">
                                         <div class="dropdown">
                                             <button class="btn btn-link text-secondary mb-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -96,6 +104,7 @@
                                             </ul>
                                         </div>
                                     </td>
+                                    @endif
                                 </tr>
                                 <tr>
                                     <td>
@@ -117,6 +126,7 @@
                                     <td class="align-middle text-center">
                                         <span class="me-2 text-xs font-weight-bold badge bg-gradient-success">Valid</span>
                                     </td>
+                                    @if (auth()->user()->role_id == 1)
                                     <td class="align-middle">
                                         <div class="dropdown">
                                             <button class="btn btn-link text-secondary mb-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -129,6 +139,7 @@
                                             </ul>
                                         </div>
                                     </td>
+                                    @endif
                                 </tr>
                                 <tr>
                                     <td>
@@ -150,6 +161,7 @@
                                     <td class="align-middle text-center">
                                         <span class="me-2 text-xs font-weight-bold badge bg-gradient-success">Valid</span>
                                     </td>
+                                    @if (auth()->user()->role_id == 1)
                                     <td class="align-middle">
                                         <div class="dropdown">
                                             <button class="btn btn-link text-secondary mb-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -162,6 +174,7 @@
                                             </ul>
                                         </div>
                                     </td>
+                                    @endif
                                 </tr>
                                 <tr>
                                     <td>
@@ -183,6 +196,7 @@
                                     <td class="align-middle text-center">
                                         <span class="me-2 text-xs font-weight-bold badge bg-gradient-info">Munggu Konfirmasi</span>
                                     </td>
+                                    @if (auth()->user()->role_id == 1)
                                     <td class="align-middle">
                                         <div class="dropdown">
                                             <button class="btn btn-link text-secondary mb-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -195,6 +209,7 @@
                                             </ul>
                                         </div>
                                     </td>
+                                    @endif
                                 </tr>
                                 <tr>
                                     <td>
@@ -216,6 +231,7 @@
                                     <td class="align-middle text-center">
                                         <span class="me-2 text-xs font-weight-bold badge bg-gradient-danger" > Invalid</span>
                                     </td>
+                                    @if (auth()->user()->role_id == 1)
                                     <td class="align-middle">
                                         <div class="dropdown">
                                             <button class="btn btn-link text-secondary mb-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -228,6 +244,7 @@
                                             </ul>
                                         </div>
                                     </td>
+                                    @endif
                                 </tr>
                             </tbody>
                         </table>

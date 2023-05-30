@@ -35,7 +35,11 @@
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <a href="route('logout')"
+                                                onclick="event.preventDefault();
+                                                            this.closest('form').submit();" class="dropdown-item border-radius-md">
                                 <div class="d-flex">
                                     <div class="my-auto">
                                         <i class="fas fa-power-off  me-3" style="color: red;"></i>
@@ -46,7 +50,8 @@
                                         </h6>
                                     </div>
                                 </div>
-                            </a>
+                                </a>
+                        </form>
                         </li>
                     </ul>
                 </li>
