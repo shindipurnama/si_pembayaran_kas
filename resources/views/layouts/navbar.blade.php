@@ -16,7 +16,7 @@
                     <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa fa-user me-sm-1"></i>
-                        <span class="d-sm-inline d-none">Admin</span>
+                        <span class="d-sm-inline d-none">{{auth()->user()->name}}</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end me-sm-n4"
                         aria-labelledby="dropdownMenuButton">

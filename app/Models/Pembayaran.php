@@ -6,15 +6,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Role extends Model
+class Pembayaran extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
-    public $table = 'role';
+    public $table = 'pembayaran';
     protected $fillable = [
-        'role',
-        'status',
+        'id_pembayaran',
+        'id_tagihan',
+        'total_bayar',
+        'bukti_bayar',
+        'tgl_bayar',
+        'status_bayar',
+        'metode_bayar',
     ];
 
 }

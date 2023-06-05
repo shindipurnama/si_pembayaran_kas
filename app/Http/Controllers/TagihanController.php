@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Tagihan;
+use Illuminate\Support\Facades\Auth;
 
 class TagihanController extends Controller
 {
@@ -13,7 +16,17 @@ class TagihanController extends Controller
      */
     public function index()
     {
-        return view('tagihan');
+        $users = User::where('role_id',2)->get();
+        $tagihan =\DB::table('tagihan')->get()->last()->id_tagihan ?? 0;
+        $id = $tagihan + 1;
+
+        if (Auth::user()->role_id == 1){
+            $data = Tagihan::All();
+        }else{
+            $data = Tagihan::where('id_user',Auth::user()->id)->get();
+        }
+
+        return view('tagihan',compact('users','id','data'));
     }
 
     /**
@@ -36,6 +49,9 @@ class TagihanController extends Controller
     public function store(Request $request)
     {
         //
+
+        Tagihan::create($request->all());
+        return back();
     }
 
     /**
@@ -70,6 +86,8 @@ class TagihanController extends Controller
     public function update(Request $request, $id)
     {
         //
+        Tagihan::find($id)->update($request->all());
+        return back();
     }
 
     /**
@@ -81,5 +99,7 @@ class TagihanController extends Controller
     public function destroy($id)
     {
         //
+        Tagihan::find($id)->delete();
+        return back();
     }
 }

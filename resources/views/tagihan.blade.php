@@ -31,212 +31,178 @@
                                     <th
                                         class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                                         Status</th>
-                                    <th>action</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">1</h6>
+                                @foreach ($data as $key =>$row)
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex px-2">
+                                                <div class="my-auto">
+                                                    <h6 class="mb-0 text-sm">{{$key+1}}</h6>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="text-sm font-weight-bold mb-0">{{$row->tgl_tagihan}}</p>
+                                        </td>
+                                        <td>
+                                            <span class="text-xs font-weight-bold">{{$row->keterangan}}</span>
+                                        </td>
+                                        <td>
+                                            <span class="text-xs font-weight-bold">{{$row->user->name}}</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            @if ($row->status_tagihan == 0)
+                                                <span class="me-2 text-xs font-weight-bold badge bg-gradient-danger">Belum Bayar</span>
+                                            @elseif($row->status_tagihan == 1)
+                                                <span class="me-2 text-xs font-weight-bold badge bg-gradient-info">Menunggu Konfirmasi</span>
+                                            @else
+                                                <span class="me-2 text-xs font-weight-bold badge bg-gradient-success">Lunas</span>
+                                            @endif
+                                        </td>
+                                        <td class="align-middle">
+                                            <div class="dropdown">
+                                                <button class="btn btn-link text-secondary mb-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    @if (auth()->user()->role_id == 2)
+                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-bayar-{{$row->id}}">Upload Bukti</a></li>
+                                                    @endif
+                                                    @if (auth()->user()->role_id == 1)
+                                                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-edit-{{$row->id}}">Edit</a></li>
+                                                        @if($row->status_tagihan == 0)
+                                                            <li>
+                                                                <form action="{{ route('tagihan.destroy', $row->id) }}" method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button class="dropdown-item" onclick="return confirm('Hapus data ini?')" type="submit" >Delete</button>
+                                                                </form>
+                                                            </li>
+                                                        @endif
+                                                    @endif
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <div class="modal fade" id="modal-edit-{{$row->id}}" tabindex="-1" role="dialog" aria-labelledby="modal-edit" aria-hidden="true">
+                                        <div class="modal-dialog modal- modal-dialog-centered modal-lg" role="document">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h6 class="modal-title" id="modal-title-default">Edit Tagihan</h6>
+                                                <button type="button" class="btn-close bg-dark" data-bs-dismiss="modal" aria-label="Close">
+                                                </button>
+                                            </div>
+                                            <form method="POST" action="{{ route('tagihan.update',[$row->id]) }}">
+                                            @csrf
+                                            @method('PUT')
+                                                <div class="modal-body">
+                                                        <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="example-text-input" class="form-control-label">Tanggal Tagihan</label>
+                                                                <input type="date" class="form-control" required name="tgl_tagihan" value="{{$row->tgl_tagihan}}"  id="exampleFormControlInput1">
+                                                                <input type="hidden" class="form-control" required name="id_tagihan" value="{{$row->id}}" id="exampleFormControlInput1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="example-text-input" class="form-control-label">User</label>
+                                                                <select class="form-control" required id="select2" name="id_user">
+                                                                    @foreach ($users as $user)
+                                                                        <option value="{{$user->id}}" {{ $user->id == $row->id_user ? 'selected' : '' }}>{{$user->name}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="example-text-input" class="form-control-label">Jumlah</label>
+                                                                    <input type="text" class="form-control" required name="jumlah"  value="{{$row->jumlah}}"  id="exampleFormControlInput1">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <div class="form-group">
+                                                                    <label for="example-text-input" class="form-control-label">Keterangan</label>
+                                                                    <input type="text" class="form-control" required name="keterangan" value="{{$row->keterangan}}"  id="exampleFormControlInput1">
+                                                                    <input type="hidden" class="form-control" required name="status_tagihan" value="0" id="exampleFormControlInput1">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn bg-gradient-primary">Save changes</button>
+                                            </form>
+                                            </div>
                                             </div>
                                         </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">22 / 05 / 2023</p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">Tagihan Mei</span>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">Chika</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="me-2 text-xs font-weight-bold badge bg-gradient-success">Lunas</span>
-                                    </td>
-                                    <td class="align-middle">
-                                        <div class="dropdown">
-                                            <button class="btn btn-link text-secondary mb-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                @if (auth()->user()->role_id == 2)
-                                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-bayar">Upload Bukti</a></li>
-                                                @endif
-                                                @if (auth()->user()->role_id == 1)
-                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-edit">Edit</a></li>
-                                                    <li><a class="dropdown-item" href="#">Delete</a></li>
-                                                @endif
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">2</h6>
+                                    </div>
+
+                                    <div class="modal fade" id="modal-bayar-{{$row->id}}" tabindex="-1" role="dialog" aria-labelledby="modal-bayar" aria-hidden="true">
+                                        <div class="modal-dialog modal- modal-dialog-centered modal-lg" role="document">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h6 class="modal-title" id="modal-title-default">Upload Bukti</h6>
+                                                <button type="button" class="btn-close bg-dark" data-bs-dismiss="modal" aria-label="Close">
+                                                </button>
+                                            </div>
+                                            <form method="POST" action="{{ route('pembayaran.store') }}" enctype="multipart/form-data">
+                                            @csrf
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="example-text-input" class="form-control-label">Tanggal Bayar</label>
+                                                                <input type="date" class="form-control" required name="tgl_bayar" id="exampleFormControlInput1">
+                                                                <input type="hidden" class="form-control" required name="id_tagihan" value="{{$row->id_tagihan}}" id="exampleFormControlInput1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label for="example-text-input" class="form-control-label">Jenis Pembayaran</label>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="metode_bayar" value="1" id="customRadio1">
+                                                                <label class="custom-control-label" for="customRadio1">Ovo</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label for="example-text-input" class="form-control-label"> &nbsp;</label>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="metode_bayar" value="2" id="customRadio2">
+                                                                <label class="custom-control-label" for="customRadio2">Dana</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="example-text-input" class="form-control-label">Bukti Bayar</label>
+                                                                <input type="file" class="form-control" required  name="bukti_bayar" id="exampleFormControlInput1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="example-text-input" class="form-control-label">Jumlah</label>
+                                                                <input type="number" class="form-control" name="total_bayar" {{$row->jumlah}}  required id="exampleFormControlInput1">
+                                                                <input type="hidden" class="form-control" name="status_bayar" value="0" required id="exampleFormControlInput1">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn bg-gradient-primary">Bayar</button>
+                                                </div>
+                                            </form>
                                             </div>
                                         </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">22 / 05 / 2023</p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">Tagihan Mei</span>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">Chika</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="me-2 text-xs font-weight-bold badge bg-gradient-danger">Belum Bayar</span>
-                                    </td>
-                                    <td class="align-middle">
-                                        <div class="dropdown">
-                                            <button class="btn btn-link text-secondary mb-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-edit">Edit</a></li>
-                                              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-bayar">Upload Bukti</a></li>
-                                              <li><a class="dropdown-item" href="#">Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">3</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">22 / 05 / 2023</p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">Tagihan Mei</span>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">Chika</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="me-2 text-xs font-weight-bold badge bg-gradient-success">Lunas</span>
-                                    </td>
-                                    <td class="align-middle">
-                                        <div class="dropdown">
-                                            <button class="btn btn-link text-secondary mb-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-edit">Edit</a></li>
-                                              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-bayar">Upload Bukti</a></li>
-                                              <li><a class="dropdown-item" href="#">Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">4</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">22 / 05 / 2023</p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">Tagihan Mei</span>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">Chika</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="me-2 text-xs font-weight-bold badge bg-gradient-success">Lunas</span>
-                                    </td>
-                                    <td class="align-middle">
-                                        <div class="dropdown">
-                                            <button class="btn btn-link text-secondary mb-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-edit">Edit</a></li>
-                                              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-bayar">Upload Bukti</a></li>
-                                              <li><a class="dropdown-item" href="#">Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">5</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">22 / 05 / 2023</p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">Tagihan Mei</span>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">Chika</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="me-2 text-xs font-weight-bold badge bg-gradient-info">Munggu Konfirmasi</span>
-                                    </td>
-                                    <td class="align-middle">
-                                        <div class="dropdown">
-                                            <button class="btn btn-link text-secondary mb-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-edit">Edit</a></li>
-                                              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-bayar">Upload Bukti</a></li>
-                                              <li><a class="dropdown-item" href="#">Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">6</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">22 / 05 / 2023</p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">Tagihan Mei</span>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">Chika</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="me-2 text-xs font-weight-bold badge bg-gradient-danger" > Belum Bayar</span>
-                                    </td>
-                                    <td class="align-middle">
-                                        <div class="dropdown">
-                                            <button class="btn btn-link text-secondary mb-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-edit">Edit</a></li>
-                                              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-bayar">Upload Bukti</a></li>
-                                              <li><a class="dropdown-item" href="#">Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
+                                    </div>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -253,137 +219,55 @@
                 <button type="button" class="btn-close bg-dark" data-bs-dismiss="modal" aria-label="Close">
                 </button>
             </div>
-            <div class="modal-body">
-                <form>
-                    <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="example-text-input" class="form-control-label">Tanggal Tagihan</label>
-                        <input type="date" class="form-control" id="exampleFormControlInput1">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="example-text-input" class="form-control-label">User</label>
-                            <select class="form-control" id="select2">
-                                <option>Chika</option>
-                                <option>Andre</option>
-                                <option>Hanifa</option>
-                                <option>Dahlia</option>
-                                <option>Joko</option>
-                            </select>
-                        </div>
-                    </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
+            <form method="POST" action="{{ route('tagihan.store') }}">
+            @csrf
+                <div class="modal-body">
+                        <div class="row">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="example-text-input" class="form-control-label">Keterangan</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1">
+                                <label for="example-text-input" class="form-control-label">Tanggal Tagihan</label>
+                                <input type="date" class="form-control" required name="tgl_tagihan" id="exampleFormControlInput1">
+                                <input type="hidden" class="form-control" required name="id_tagihan" value="{{$id}}" id="exampleFormControlInput1">
                             </div>
                         </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn bg-gradient-primary">Save changes</button>
-            </div>
-            </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="example-text-input" class="form-control-label">User</label>
+                                <select class="form-control" required id="select2" name="id_user">
+                                    @foreach ($users as $user)
+                                        <option value="{{$user->id}}">{{$user->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Jumlah</label>
+                                    <input type="text" class="form-control" required name="jumlah" id="exampleFormControlInput1">
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Keterangan</label>
+                                    <input type="text" class="form-control" required name="keterangan" id="exampleFormControlInput1">
+                                    <input type="hidden" class="form-control" required name="status_tagihan" value="0" id="exampleFormControlInput1">
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn bg-gradient-primary">Save changes</button>
+                </div>
+                </div>
+            </form>
         </div>
     </div>
 
-    <div class="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-labelledby="modal-edit" aria-hidden="true">
-        <div class="modal-dialog modal- modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title" id="modal-title-default">Edit Tagihan</h6>
-                <button type="button" class="btn-close bg-dark" data-bs-dismiss="modal" aria-label="Close">
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="example-text-input" class="form-control-label">Tanggal Tagihan</label>
-                            <input type="date" value="{{date('Y-m-d')}}" class="form-control" id="exampleFormControlInput1">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="example-text-input" class="form-control-label">User</label>
-                            <select class="form-control" id="select2">
-                                <option>Chika</option>
-                                <option>Andre</option>
-                                <option>Hanifa</option>
-                                <option>Dahlia</option>
-                                <option>Joko</option>
-                            </select>
-                        </div>
-                    </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="example-text-input" class="form-control-label">Keterangan</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1">
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn bg-gradient-primary">Save changes</button>
-            </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="modal fade" id="modal-bayar" tabindex="-1" role="dialog" aria-labelledby="modal-bayar" aria-hidden="true">
-        <div class="modal-dialog modal- modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title" id="modal-title-default">Upload Bukti</h6>
-                <button type="button" class="btn-close bg-dark" data-bs-dismiss="modal" aria-label="Close">
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="row">
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <label for="example-text-input" class="form-control-label">Bukti Bayar</label>
-                                <input type="file" class="form-control" id="exampleFormControlInput1">
-                            </div>
-                        </div>
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <label for="example-text-input" class="form-control-label">Jumlah</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1">
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="customRadio1">
-                                <label class="custom-control-label" for="customRadio1">Ovo</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="customRadio2">
-                                <label class="custom-control-label" for="customRadio2">Dana</label>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn bg-gradient-primary">Bayar</button>
-            </div>
-            </div>
-        </div>
-    </div>
+
     <div class="modal fade" id="modal-qr" tabindex="-1" role="dialog" aria-labelledby="modal-bayar" aria-hidden="true">
         <div class="modal-dialog modal- modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">

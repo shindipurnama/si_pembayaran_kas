@@ -35,217 +35,50 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">1</h6>
+                                @foreach ($data as $key => $row)
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex px-2">
+                                                <div class="my-auto">
+                                                    <h6 class="mb-0 text-sm">{{$key+1}}</h6>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">22 / 05 / 2023</p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">T/23/05/001</span>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">Rp. 50.000</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="me-2 text-xs font-weight-bold badge bg-gradient-success">Valid</span>
-                                    </td>
+                                        </td>
+                                        <td>
+                                            <p class="text-sm font-weight-bold mb-0">{{$row->tgl_bayar}}</p>
+                                        </td>
+                                        <td>
+                                            <span class="text-xs font-weight-bold">{{$row->id_tagihan}}</span>
+                                        </td>
+                                        <td>
+                                            <span class="text-xs font-weight-bold">{{$row->total_bayar}}</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            @if ($row->status_bayar == 0)
+                                                <span class="me-2 text-xs font-weight-bold badge bg-gradient-info">Menunggu Konfirmasi</span>
+                                            @elseif($row->status_bayar == 1)
+                                            <span class="me-2 text-xs font-weight-bold badge bg-gradient-success">Valid</span>
+                                            @else
+                                                <span class="me-2 text-xs font-weight-bold badge bg-gradient-danger">Invalid</span>
+                                            @endif
+                                        </td>
 
-                                    @if (auth()->user()->role_id == 1)
-                                    <td class="align-middle">
-                                        <div class="dropdown">
-                                            <button class="btn btn-link text-secondary mb-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-edit">Edit</a></li>
-                                              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-konfirmasi">Konfirmasi</a></li>
-                                              <li><a class="dropdown-item" href="#">Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                    @endif
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">2</h6>
+                                        @if (auth()->user()->role_id == 1)
+                                        <td class="align-middle">
+                                            <div class="dropdown">
+                                                <button class="btn btn-link text-secondary mb-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-edit">Edit</a></li>
+                                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-konfirmasi">Konfirmasi</a></li>
+                                                <li><a class="dropdown-item" href="#">Delete</a></li>
+                                                </ul>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">22 / 05 / 2023</p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">T/23/05/001</span>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">Rp. 50.000</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="me-2 text-xs font-weight-bold badge bg-gradient-danger">Invalid</span>
-                                    </td>
-                                    @if (auth()->user()->role_id == 1)
-                                    <td class="align-middle">
-                                        <div class="dropdown">
-                                            <button class="btn btn-link text-secondary mb-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-edit">Edit</a></li>
-                                              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-konfirmasi">Konfirmasi</a></li>
-                                              <li><a class="dropdown-item" href="#">Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                    @endif
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">3</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">22 / 05 / 2023</p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">T/23/05/001</span>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">Rp. 50.000</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="me-2 text-xs font-weight-bold badge bg-gradient-success">Valid</span>
-                                    </td>
-                                    @if (auth()->user()->role_id == 1)
-                                    <td class="align-middle">
-                                        <div class="dropdown">
-                                            <button class="btn btn-link text-secondary mb-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-edit">Edit</a></li>
-                                              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-konfirmasi">Konfirmasi</a></li>
-                                              <li><a class="dropdown-item" href="#">Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                    @endif
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">4</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">22 / 05 / 2023</p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">T/23/05/001</span>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">Rp. 50.000</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="me-2 text-xs font-weight-bold badge bg-gradient-success">Valid</span>
-                                    </td>
-                                    @if (auth()->user()->role_id == 1)
-                                    <td class="align-middle">
-                                        <div class="dropdown">
-                                            <button class="btn btn-link text-secondary mb-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-edit">Edit</a></li>
-                                              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-konfirmasi">Konfirmasi</a></li>
-                                              <li><a class="dropdown-item" href="#">Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                    @endif
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">5</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">22 / 05 / 2023</p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">T/23/05/001</span>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">Rp. 50.000</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="me-2 text-xs font-weight-bold badge bg-gradient-info">Munggu Konfirmasi</span>
-                                    </td>
-                                    @if (auth()->user()->role_id == 1)
-                                    <td class="align-middle">
-                                        <div class="dropdown">
-                                            <button class="btn btn-link text-secondary mb-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-edit">Edit</a></li>
-                                              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-konfirmasi">Konfirmasi</a></li>
-                                              <li><a class="dropdown-item" href="#">Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                    @endif
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">6</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">22 / 05 / 2023</p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">T/23/05/001</span>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">Rp. 50.000</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="me-2 text-xs font-weight-bold badge bg-gradient-danger" > Invalid</span>
-                                    </td>
-                                    @if (auth()->user()->role_id == 1)
-                                    <td class="align-middle">
-                                        <div class="dropdown">
-                                            <button class="btn btn-link text-secondary mb-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-edit">Edit</a></li>
-                                              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-konfirmasi">Konfirmasi</a></li>
-                                              <li><a class="dropdown-item" href="#">Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                    @endif
-                                </tr>
+                                        </td>
+                                        @endif
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
