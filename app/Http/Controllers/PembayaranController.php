@@ -17,12 +17,13 @@ class PembayaranController extends Controller
     public function index()
     {
         //
+        $tagihan = Tagihan::where('status_tagihan','!=',1)->get();
         if (Auth::user()->role_id == 1){
             $data = Pembayaran::All();
         }else{
             $data = Pembayaran::leftJoin('tagihan','tagihan.id_tagihan','=','pembayaran.id_tagihan')->where('id_user',Auth::user()->id)->get();
         }
-        return view('pembayaran',compact('data'));
+        return view('pembayaran',compact('data','tagihan'));
     }
 
     /**
@@ -68,6 +69,18 @@ class PembayaranController extends Controller
 
             Tagihan::where('id_tagihan',$request->id_tagihan)->update(['status_tagihan'=>1]);
             Pembayaran::create($data);
+        }else{
+            $data = array(
+                'id_pembayaran'=>$id,
+                'id_tagihan'=>$request->id_tagihan,
+                'total_bayar'=>$request->total_bayar,
+                'tgl_bayar'=>$request->tgl_bayar,
+                'status_bayar'=>1,
+                'metode_bayar'=>0,//manual
+            );
+
+            Tagihan::where('id_tagihan',$request->id_tagihan)->update(['status_tagihan'=>2]);
+            Pembayaran::create($data);
         }
 
         return back();
@@ -108,6 +121,23 @@ class PembayaranController extends Controller
     public function update(Request $request, $id)
     {
         //
+        switch ($request->input('action')) {
+            case 'edit':
+                Pembayaran::find($id)->update($request->all());
+                return back();
+            break;
+            case 'konfirmasi':
+                $pembayaran = Pembayaran::find($id);
+                Tagihan::where('id_tagihan',$pembayaran->id_tagihan)->update(['status_tagihan'=>2]);
+                $pembayaran->status_bayar= 1;
+                $pembayaran->save();
+                return back();
+            break;
+        }
+    }
+
+    public function konfirmasi(Request $request, $id)
+    {
     }
 
     /**
@@ -119,5 +149,9 @@ class PembayaranController extends Controller
     public function destroy($id)
     {
         //
+        $pembayaran = Pembayaran::find($id);
+        Tagihan::where('id_tagihan',$pembayaran->id_tagihan)->update(['status_tagihan'=>0]);
+        $pembayaran->delete();
+        return back();
     }
 }

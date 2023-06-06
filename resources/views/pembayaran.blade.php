@@ -12,7 +12,7 @@
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0">
-                    <h6>Data Pembayaran tes tes</h6>
+                    <h6>Data Pembayaran</h6>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive">
@@ -70,14 +70,107 @@
                                                     <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
                                                 </button>
                                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-edit">Edit</a></li>
-                                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-konfirmasi">Konfirmasi</a></li>
-                                                <li><a class="dropdown-item" href="#">Delete</a></li>
+                                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-edit-{{$row->id}}">Edit</a></li>
+                                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-konfirmasi-{{$row->id}}">Konfirmasi</a></li>
+                                                <li>
+                                                    <form action="{{ route('pembayaran.destroy', $row->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button class="dropdown-item" onclick="return confirm('Hapus data ini?')" type="submit" >Delete</button>
+                                                    </form>
+                                                </li>
                                                 </ul>
                                             </div>
                                         </td>
                                         @endif
                                     </tr>
+
+                                    <div class="modal fade" id="modal-edit-{{$row->id}}" tabindex="-1" role="dialog" aria-labelledby="modal-edit" aria-hidden="true">
+                                        <div class="modal-dialog modal- modal-dialog-centered modal-lg" role="document">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h6 class="modal-title" id="modal-title-default">Edit Pembayaran</h6>
+                                                <button type="button" class="btn-close bg-dark" data-bs-dismiss="modal" aria-label="Close">
+                                                </button>
+                                            </div>
+                                            <form method="POST" action="{{ route('pembayaran.update',[$row->id]) }}">
+                                            @csrf
+                                            @method('PUT')
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="example-text-input" class="form-control-label">Tanggal Bayar</label>
+                                                            <input type="date" class="form-control" name="tgl_bayar" value="{{$row->tgl_bayar}}" id="exampleFormControlInput1">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="example-text-input" class="form-control-label">No Tagihan</label>
+                                                            <select class="form-control" id="select1" name="id_tagihan">
+                                                                @foreach ($tagihan as $data)
+                                                                    <option value="{{$data->id_tagihan}}" {{ $data->id_tagihan == $row->id_tagihan ? 'selected' : '' }}>Tagihan No {{$data->id_tagihan}} - {{$data->user->name}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="example-text-input" class="form-control-label">Jumlah</label>
+                                                                <input type="text" class="form-control" name="total_bayar" value="{{$row->total_bayar}}" id="exampleFormControlInput1">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" name="action" value="edit" class="btn bg-gradient-primary">Save changes</button>
+                                                </div>
+                                            </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal fade" id="modal-konfirmasi-{{$row->id}}" tabindex="-1" role="dialog" aria-labelledby="modal-konfirmasi" aria-hidden="true">
+                                        <div class="modal-dialog modal- modal-dialog-centered modal-lg" role="document">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h6 class="modal-title" id="modal-title-default">Konfirmasi Pembayaran</h6>
+                                                <button type="button" class="btn-close bg-dark" data-bs-dismiss="modal" aria-label="Close">
+                                                </button>
+                                            </div>
+                                            <form method="POST" action="{{ route('pembayaran.update',[$row->id]) }}">
+                                            @csrf
+                                            @method('PUT')
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <img width="250" src="{{ asset($row->bukti_bayar)}}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="example-text-input" class="form-control-label">No Tagihan</label>
+                                                            <input type="text" readonly class="form-control" value="No Tagihan {{$row->id_tagihan}} - {{$row->tagihan->user->name}}" id="exampleFormControlInput1">
+                                                            <input type="hidden" class="form-control" value="{{$row->id_tagihan}}" id="exampleFormControlInput1">
+                                                            <label for="example-text-input" class="form-control-label">Jumlah</label>
+                                                            <input type="number" value="{{$row->total_bayar}}" class="form-control" id="exampleFormControlInput1">
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" name="action" value="konfirmasi"  class="btn bg-gradient-primary">Konfirmasi Pembayaran</button>
+                                                </div>
+                                            </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 @endforeach
                             </tbody>
                         </table>
@@ -95,22 +188,24 @@
                 <button type="button" class="btn-close bg-dark" data-bs-dismiss="modal" aria-label="Close">
                 </button>
             </div>
-            <div class="modal-body">
-                <form>
+            <form method="POST" action="{{ route('pembayaran.store') }}" enctype="multipart/form-data">
+            @csrf
+                <div class="modal-body">
                     <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="example-text-input" class="form-control-label">Tanggal Bayar</label>
-                        <input type="date" class="form-control" id="exampleFormControlInput1">
+                            <input type="date" name="tgl_bayar" class="form-control" id="exampleFormControlInput1">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="example-text-input" class="form-control-label">No Tagihan</label>
-                            <select class="form-control" id="select2">
-                                <option>T/23/05/001</option>
-                                <option>T/23/05/002</option>
-                                <option>T/23/05/003</option>
+                            <select class="form-control" id="select2" name="id_tagihan">
+                                <option hidden selected>-- Select Tagihan --</option>
+                                @foreach ($tagihan as $tagihan)
+                                    <option value="{{$tagihan->id_tagihan}}">Tagihan No {{$tagihan->id_tagihan}} - {{$tagihan->user->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -119,97 +214,16 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="example-text-input" class="form-control-label">Jumlah</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1">
+                                <input type="number" class="form-control" id="exampleFormControlInput1" name="total_bayar">
                             </div>
                         </div>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn bg-gradient-primary">Save changes</button>
-            </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-labelledby="modal-edit" aria-hidden="true">
-        <div class="modal-dialog modal- modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title" id="modal-title-default">Edit Pembayaran</h6>
-                <button type="button" class="btn-close bg-dark" data-bs-dismiss="modal" aria-label="Close">
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="example-text-input" class="form-control-label">Tanggal Bayar</label>
-                            <input type="date" class="form-control" value="{{date('Y-m-d')}}" id="exampleFormControlInput1">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="example-text-input" class="form-control-label">No Tagihan</label>
-                            <select class="form-control" id="select2">
-                                <option>T/23/05/001</option>
-                                <option>T/23/05/002</option>
-                                <option>T/23/05/003</option>
-                            </select>
-                        </div>
-                    </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="example-text-input" class="form-control-label">Jumlah</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1">
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn bg-gradient-primary">Save changes</button>
-            </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="modal-konfirmasi" tabindex="-1" role="dialog" aria-labelledby="modal-konfirmasi" aria-hidden="true">
-        <div class="modal-dialog modal- modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title" id="modal-title-default">Konfirmasi Pembayaran</h6>
-                <button type="button" class="btn-close bg-dark" data-bs-dismiss="modal" aria-label="Close">
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="row">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <img width="250" src="{{ asset('/assets/img/curved-images/curved12.jpg')}}">
-                        </div>
-                    </div>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="example-text-input" class="form-control-label">No Tagihan</label>
-                            <input type="text" class="form-control" value="T/23/05/003" id="exampleFormControlInput1">
-                            <label for="example-text-input" class="form-control-label">Jumlah</label>
-                            <input type="text" class="form-control" id="exampleFormControlInput1">
-                        </div>
-                    </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn bg-gradient-primary">Konfirmasi Pembayaran</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn bg-gradient-primary">Save changes</button>
+                </div>
+            </form>
             </div>
         </div>
     </div>

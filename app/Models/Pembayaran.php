@@ -22,4 +22,9 @@ class Pembayaran extends Model
         'metode_bayar',
     ];
 
+    public function tagihan()
+    {
+        return $this->hasOne(Tagihan::class, 'id_tagihan','id_tagihan');
+    }
+
 }
