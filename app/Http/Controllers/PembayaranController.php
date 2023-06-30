@@ -34,7 +34,8 @@ class PembayaranController extends Controller
     public function create()
     {
         //
-        return view('laporanPembayaran');
+        $data = Pembayaran::where('status_bayar',1)->get();
+        return view('laporanPembayaran',compact('data'));
     }
 
     /**

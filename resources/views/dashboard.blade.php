@@ -11,7 +11,7 @@
                         <div class="col-9">
                             <div class="numbers">
                                 <h5 class="font-weight-bolder">
-                                    10
+                                    {{ $belumKonfirmasi }} Pembayaran
                                 </h5>
                                 {{-- <p class="mb-0">
                                     <span class="text-success text-sm font-weight-bolder">+3%</span>
@@ -37,7 +37,7 @@
                         <div class="col-9">
                             <div class="numbers">
                                 <h5 class="font-weight-bolder">
-                                    IDR 150.000
+                                    Rp. {{ $totalTagihan }}
                                 </h5>
                                 {{-- <p class="mb-0">
                                     <span class="text-success text-sm font-weight-bolder">+55%</span>
@@ -63,7 +63,7 @@
                         <div class="col-9">
                             <div class="numbers">
                                 <h5 class="font-weight-bolder">
-                                    IDR 500.000
+                                    Rp. {{ $totalBayar }}
                                 </h5>
                                 {{-- <p class="mb-0">
                                     <span class="text-danger text-sm font-weight-bolder">-2%</span>
@@ -89,7 +89,7 @@
                         <div class="col-9">
                             <div class="numbers">
                                 <h5 class="font-weight-bolder">
-                                    73 User
+                                    {{ $user }} User
                                 </h5>
                                 {{-- <p class="mb-0">
                                     <span class="text-success text-sm font-weight-bolder">+5%</span> than last

@@ -27,4 +27,12 @@ class Pembayaran extends Model
         return $this->hasOne(Tagihan::class, 'id_tagihan','id_tagihan');
     }
 
+    public function belumKonfirmasi(){
+        $count = Pembayaran::where('status_bayar',0)->count('id_pembayaran');
+        return $count;
+    }
+
+    public function uangMasuk(){
+
+    }
 }

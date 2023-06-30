@@ -25,6 +25,8 @@
                                         Tanggal Pembayaran</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                         No Tagihan</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                                        User</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                         Jumlah Bayar</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
@@ -49,6 +51,9 @@
                                         </td>
                                         <td>
                                             <span class="text-xs font-weight-bold">{{$row->id_tagihan}}</span>
+                                        </td>
+                                        <td>
+                                            <span class="text-xs font-weight-bold">{{$row->tagihan->user->name}}</span>
                                         </td>
                                         <td>
                                             <span class="text-xs font-weight-bold">{{$row->total_bayar}}</span>

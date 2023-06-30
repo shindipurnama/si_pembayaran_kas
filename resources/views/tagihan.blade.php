@@ -28,6 +28,8 @@
                                         Keterangan</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                         User</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        Jumlah</th>
                                     <th
                                         class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                                         Status</th>
@@ -52,6 +54,9 @@
                                         </td>
                                         <td>
                                             <span class="text-xs font-weight-bold">{{$row->user->name}}</span>
+                                        </td>
+                                        <td>
+                                            <span class="text-xs font-weight-bold">{{$row->jumlah}}</span>
                                         </td>
                                         <td class="align-middle text-center">
                                             @if ($row->status_tagihan == 0)

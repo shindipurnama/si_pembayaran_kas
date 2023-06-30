@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Tagihan;
+use DB;
 use Illuminate\Support\Facades\Auth;
 
 class TagihanController extends Controller
@@ -17,7 +18,7 @@ class TagihanController extends Controller
     public function index()
     {
         $users = User::where('role_id',2)->get();
-        $tagihan =\DB::table('tagihan')->get()->last()->id_tagihan ?? 0;
+        $tagihan = DB::table('tagihan')->get()->last()->id_tagihan ?? 0;
         $id = $tagihan + 1;
 
         if (Auth::user()->role_id == 1){
@@ -37,7 +38,8 @@ class TagihanController extends Controller
     public function create()
     {
         //
-        return view('laporanTagihan');
+        $data = Tagihan::All();
+        return view('laporanTagihan',compact('data'));
     }
 
     /**

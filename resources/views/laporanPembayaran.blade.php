@@ -16,7 +16,7 @@
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0">
-                    <h6>Data Tagihan</h6>
+                    <h6>Laporan Pembayaran</h6>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive">
@@ -30,123 +30,37 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                         No Tagihan</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        User</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                         Jumlah Bayar</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">1</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">22 / 05 / 2023</p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">T/23/05/001</span>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">Rp. 50.000</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">2</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">22 / 05 / 2023</p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">T/23/05/001</span>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">Rp. 50.000</span>
-                                    </td>
 
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">3</h6>
+                                @foreach ($data as $key => $row)
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex px-2">
+                                                <div class="my-auto">
+                                                    <h6 class="mb-0 text-sm">{{$key+1}}</h6>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">22 / 05 / 2023</p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">T/23/05/001</span>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">Rp. 50.000</span>
-                                    </td>
+                                        </td>
+                                        <td>
+                                            <p class="text-sm font-weight-bold mb-0">{{$row->tgl_bayar}}</p>
+                                        </td>
+                                        <td>
+                                            <span class="text-xs font-weight-bold">{{$row->id_tagihan}}</span>
+                                        </td>
+                                        <td>
+                                            <span class="text-xs font-weight-bold">{{$row->tagihan->user->name}}</span>
+                                        </td>
+                                        <td>
+                                            <span class="text-xs font-weight-bold">{{$row->total_bayar}}</span>
+                                        </td>
+                                    </tr>
 
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">4</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">22 / 05 / 2023</p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">T/23/05/001</span>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">Rp. 50.000</span>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">5</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">22 / 05 / 2023</p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">T/23/05/001</span>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">Rp. 50.000</span>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">6</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">22 / 05 / 2023</p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">T/23/05/001</span>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs font-weight-bold">Rp. 50.000</span>
-                                    </td>
-
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

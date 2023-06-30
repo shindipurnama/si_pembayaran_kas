@@ -25,4 +25,8 @@ class Tagihan extends Model
     {
         return $this->hasOne(User::class, 'id','id_user');
     }
+
+    public function belumBayar(){
+
+    }
 }
