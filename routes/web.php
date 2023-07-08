@@ -23,6 +23,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
     Route::resource('tagihan', \App\Http\Controllers\TagihanController::class);
     Route::resource('pembayaran', \App\Http\Controllers\PembayaranController::class);
+    Route::post('laporanPembayaran', [\App\Http\Controllers\PembayaranController::class,'report'])->name('pembayaran.report');
+    Route::post('laporanTagihan', [\App\Http\Controllers\TagihanController::class,'report'])->name('tagihan.report');
     Route::resource('user', \App\Http\Controllers\UserController::class);
     Route::resource('role', \App\Http\Controllers\RoleController::class);
 

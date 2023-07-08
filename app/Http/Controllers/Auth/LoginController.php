@@ -39,9 +39,9 @@ class LoginController extends Controller
     }
 
     protected function sendFailedLoginResponse(Request $request)
-{
-    throw ValidationException::withMessages([
-        $this->username() => [trans('auth.failed')],
-    ])->redirectTo(route('login'))->withErrors(['password' => trans('auth.password')]);
-}
+    {
+        throw ValidationException::withMessages([
+            $this->username() => [trans('auth.failed')],
+        ])->redirectTo(route('login'))->withErrors(['password' => trans('auth.password')]);
+    }
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Tagihan;
 use App\Models\Pembayaran;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class PembayaranController extends Controller
 {
@@ -31,11 +32,25 @@ class PembayaranController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
-        $data = Pembayaran::where('status_bayar',1)->get();
-        return view('laporanPembayaran',compact('data'));
+        $startDate =  Carbon::now()->startOfMonth();
+        $endDate = Carbon::now()->endOfMonth();
+        $data = Pembayaran::where('status_bayar',1)->whereBetween('tgl_bayar', [$startDate, $endDate])->get();
+        $total = Pembayaran::whereBetween('tgl_bayar', [$startDate, $endDate])
+                ->sum('total_bayar');
+        return view('laporanPembayaran',compact('data','total','startDate','endDate'));
+    }
+    public function report(Request $request)
+    {
+        //
+        $startDate =  Carbon::createFromFormat('Y-m-d', $request->input('start'))??Carbon::now()->startOfMonth();
+        $endDate = Carbon::createFromFormat('Y-m-d', $request->input('end'))??Carbon::now()->endOfMonth();
+        $data = Pembayaran::where('status_bayar',1)->whereBetween('tgl_bayar', [$startDate, $endDate])->get();
+        $total = Pembayaran::whereBetween('tgl_bayar', [$startDate, $endDate])
+                ->sum('total_bayar');
+        return view('laporanPembayaran',compact('data','total','startDate','endDate'));
     }
 
     /**

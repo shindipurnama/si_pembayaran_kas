@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Tagihan;
 use DB;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class TagihanController extends Controller
 {
@@ -38,10 +39,44 @@ class TagihanController extends Controller
     public function create()
     {
         //
-        $data = Tagihan::All();
-        return view('laporanTagihan',compact('data'));
+        $startDate = Carbon::now()->startOfMonth();
+        $endDate = Carbon::now()->endOfMonth();
+        $data = Tagihan::whereBetween('tgl_tagihan', [$startDate, $endDate])->get();
+        $totalBlmBayar = Tagihan::whereBetween('tgl_tagihan', [$startDate, $endDate])->where('status_tagihan',0)
+                ->sum('jumlah');
+        $totalBlmKonfrim = Tagihan::whereBetween('tgl_tagihan', [$startDate, $endDate])->where('status_tagihan',1)
+                ->sum('jumlah');
+        $totalKonfrim = Tagihan::whereBetween('tgl_tagihan', [$startDate, $endDate])->where('status_tagihan',2)
+                ->sum('jumlah');
+        $jmlhBlmBayar = Tagihan::whereBetween('tgl_tagihan', [$startDate, $endDate])->where('status_tagihan',0)
+                ->count('id');
+        $jmlhBlmKonfrim = Tagihan::whereBetween('tgl_tagihan', [$startDate, $endDate])->where('status_tagihan',1)
+                ->count('id');
+        $jmlhKonfrim = Tagihan::whereBetween('tgl_tagihan', [$startDate, $endDate])->where('status_tagihan',2)
+                ->count('id');
+        return view('laporanTagihan',compact('data','totalBlmBayar','totalBlmKonfrim','totalKonfrim','startDate','endDate','jmlhBlmBayar','jmlhBlmKonfrim','jmlhKonfrim'));
     }
 
+    public function report(Request $request)
+    {
+        //
+        $startDate =  Carbon::createFromFormat('Y-m-d', $request->input('start'))??Carbon::now()->startOfMonth();
+        $endDate = Carbon::createFromFormat('Y-m-d', $request->input('end'))??Carbon::now()->endOfMonth();
+        $data = Tagihan::whereBetween('tgl_tagihan', [$startDate, $endDate])->get();
+        $totalBlmBayar = Tagihan::whereBetween('tgl_tagihan', [$startDate, $endDate])->where('status_tagihan',0)
+                ->sum('jumlah');
+        $totalBlmKonfrim = Tagihan::whereBetween('tgl_tagihan', [$startDate, $endDate])->where('status_tagihan',1)
+                ->sum('jumlah');
+        $totalKonfrim = Tagihan::whereBetween('tgl_tagihan', [$startDate, $endDate])->where('status_tagihan',2)
+                ->sum('jumlah');
+        $jmlhBlmBayar = Tagihan::whereBetween('tgl_tagihan', [$startDate, $endDate])->where('status_tagihan',0)
+                ->count('id');
+        $jmlhBlmKonfrim = Tagihan::whereBetween('tgl_tagihan', [$startDate, $endDate])->where('status_tagihan',1)
+                ->count('id');
+        $jmlhKonfrim = Tagihan::whereBetween('tgl_tagihan', [$startDate, $endDate])->where('status_tagihan',2)
+                ->count('id');
+        return view('laporanTagihan',compact('data','totalBlmBayar','totalBlmKonfrim','totalKonfrim','startDate','endDate','jmlhBlmBayar','jmlhBlmKonfrim','jmlhKonfrim'));
+    }
     /**
      * Store a newly created resource in storage.
      *

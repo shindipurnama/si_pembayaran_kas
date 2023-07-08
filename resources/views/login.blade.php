@@ -34,7 +34,6 @@
   <!-- CSS Files -->
   <link id="pagestyle" href="{{ asset('/assets/css/argon-dashboard.css?v=2.0.4')}}" rel="stylesheet" />
 </head>
-
 <body class="">
   <main class="main-content  mt-0">
     <section>
@@ -48,6 +47,11 @@
                   <p class="mb-0">Enter your email and password to sign in</p>
                 </div>
                 <div class="card-body">
+                    @if ($errors->has('error'))
+                        <div class="alert alert-warning">
+                            {{ $errors->first('error') }}
+                        </div>
+                    @endif
                   <form action="{{ route('login') }}" method="post" role="form">
                     @csrf
                     <div class="mb-3">

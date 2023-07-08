@@ -2,16 +2,23 @@
 
 @section('content')
     <div class="row justify-content-end">
+        <form method="POST" action="{{ route('pembayaran.report') }}">
+        @csrf
             <div class="row">
                 <div class="col-3"></div>
-                <div class="col-4">
-                    <input class="form-control" type="month" value="{{date('Y-m')}}" id="example-month-input">
+                <div class="col-2">
+                    <input class="form-control" type="date" name="start" value="{{$startDate->format('Y-m-d')}}" id="example-month-input">
+                </div>
+                <div class="col-2">
+                    <input class="form-control" type="date" name="end" value="{{$endDate->format('Y-m-d')}}" id="example-month-input">
                 </div>
                 <div class="col-4">
-                    <button type="button" class="btn btn-block bg-light mb-3" data-bs-toggle="modal" data-bs-target="#modal-default">Filter Data</button>
+                    <button type="submit" class="btn btn-block bg-light mb-3" data-bs-toggle="modal" data-bs-target="#modal-default">Filter Data</button>
                 </div>
             </div>
+        </form>
     </div>
+
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">
@@ -66,6 +73,38 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-3 col-sm-6 mb-4">
+        </div>
+        <div class="col-xl-6 col-sm-6 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Pembayaran</p>
+                        <div class="col-9">
+                            <div class="numbers">
+                                <h5 class="font-weight-bolder">
+                                    Rp. {{ $total }}
+                                </h5>
+                                {{-- <p class="mb-0">
+                                    <span class="text-success text-sm font-weight-bolder">+5%</span> than last
+                                    month
+                                </p> --}}
+                            </div>
+                        </div>
+                        <div class="col-3 text-end">
+                            <div
+                                class="icon icon-shape bg-gradient-secondary shadow-secondary text-center rounded-circle">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-4">
         </div>
     </div>
 
