@@ -24,7 +24,10 @@ class PembayaranController extends Controller
         }else{
             $data = Pembayaran::leftJoin('tagihan','tagihan.id_tagihan','=','pembayaran.id_tagihan')->where('id_user',Auth::user()->id)->get();
         }
-        return view('pembayaran',compact('data','tagihan'));
+
+        $total = Pembayaran::leftJoin('tagihan','tagihan.id_tagihan','=','pembayaran.id_tagihan')->where('id_user',Auth::user()->id)
+                ->sum('total_bayar');
+        return view('pembayaran',compact('data','tagihan','total'));
     }
 
     /**

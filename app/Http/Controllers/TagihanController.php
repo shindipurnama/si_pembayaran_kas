@@ -28,7 +28,20 @@ class TagihanController extends Controller
             $data = Tagihan::where('id_user',Auth::user()->id)->get();
         }
 
-        return view('tagihan',compact('users','id','data'));
+        $totalBlmBayar = Tagihan::where('id_user', Auth::user()->id)->where('status_tagihan',0)
+                ->sum('jumlah');
+        $totalBlmKonfrim = Tagihan::where('id_user', Auth::user()->id)->where('status_tagihan',1)
+                ->sum('jumlah');
+        $totalKonfrim = Tagihan::where('id_user', Auth::user()->id)->where('status_tagihan',2)
+                ->sum('jumlah');
+        $jmlhBlmBayar = Tagihan::where('id_user', Auth::user()->id)->where('status_tagihan',0)
+                ->count('id');
+        $jmlhBlmKonfrim = Tagihan::where('id_user', Auth::user()->id)->where('status_tagihan',1)
+                ->count('id');
+        $jmlhKonfrim = Tagihan::where('id_user', Auth::user()->id)->where('status_tagihan',2)
+                ->count('id');
+
+        return view('tagihan',compact('users','id','data','totalBlmBayar','totalBlmKonfrim','totalKonfrim','jmlhBlmBayar','jmlhBlmKonfrim','jmlhKonfrim'));
     }
 
     /**

@@ -29,6 +29,8 @@
                                         No. Tlp</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                         Role</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        Barcode</th>
                                     <th width="10">action</th>
                                 </tr>
                             </thead>
@@ -57,6 +59,12 @@
                                     </td>
                                     <td>
                                         <p class="text-sm font-weight-bold mb-0">{{$user->role->role}}</p>
+                                    </td>
+                                    @php
+                                        $userId = $user->id.' - '.$user->name;
+                                    @endphp
+                                    <td>
+                                        <img  src="data:image/png;base64,{{DNS2D::getBarcodePNG($userId, "QRCODE", 3,3)}}">
                                     </td>
                                     <td class="align-middle">
                                         <div class="dropdown">

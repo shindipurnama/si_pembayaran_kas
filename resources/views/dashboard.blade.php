@@ -2,6 +2,7 @@
 
 @section('content')
 
+@if (auth()->user()->role_id == 1)
     <div class="row">
         <div class="col-xl-3 col-sm-6 mb-4">
             <div class="card">
@@ -108,6 +109,62 @@
             </div>
         </div>
     </div>
+@else
+    <div class="row">
+        <div class="col-xl-6 col-sm-6 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <p class="text-sm mb-0 text-uppercase font-weight-bold">Pembayaran Belum Terkonfirmasi</p>
+                        <div class="col-9">
+                            <div class="numbers">
+                                <h5 class="font-weight-bolder">
+                                    {{ $belumKonfirmasi }} Pembayaran
+                                </h5>
+                                {{-- <p class="mb-0">
+                                    <span class="text-success text-sm font-weight-bolder">+3%</span>
+                                    since last week
+                                </p> --}}
+                            </div>
+                        </div>
+                        <div class="col-3 text-end">
+                            <div
+                                class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
+                                <i class="fas fa-money-check"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6 col-sm-6 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <p class="text-sm mb-0 text-uppercase font-weight-bold">Tagihan Belum Dibayar</p>
+                        <div class="col-9">
+                            <div class="numbers">
+                                <h5 class="font-weight-bolder">
+                                    Rp. {{ $totalTagihan }}
+                                </h5>
+                                {{-- <p class="mb-0">
+                                    <span class="text-success text-sm font-weight-bolder">+55%</span>
+                                    since yesterday
+                                </p> --}}
+                            </div>
+                        </div>
+                        <div class="col-3 text-end">
+                            <div
+                                class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
+                                <i class="fas fa-money-check"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
     <div class="row mt-4">
         <div class="col-lg-12 mb-lg-0 mb-4">
             <div class="card z-index-2 h-100">

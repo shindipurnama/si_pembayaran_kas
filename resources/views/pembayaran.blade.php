@@ -12,7 +12,7 @@
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0">
-                    <h6>Data Pembayaran</h6>
+                    <h6>Data Konfirmasi Pembayaran</h6>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive">
@@ -31,9 +31,7 @@
                                         Jumlah Bayar</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                                         Status</th>
-                                    @if (auth()->user()->role_id == 1)
-                                        <th>action</th>
-                                    @endif
+                                    <th>action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -68,12 +66,12 @@
                                             @endif
                                         </td>
 
-                                        @if (auth()->user()->role_id == 1)
                                         <td class="align-middle">
                                             <div class="dropdown">
                                                 <button class="btn btn-link text-secondary mb-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                                     <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
                                                 </button>
+                                                @if (auth()->user()->role_id == 1 && $row->status_bayar == 0)
                                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-edit-{{$row->id}}">Edit</a></li>
                                                 <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-konfirmasi-{{$row->id}}">Konfirmasi</a></li>
@@ -84,10 +82,10 @@
                                                         <button class="dropdown-item" onclick="return confirm('Hapus data ini?')" type="submit" >Delete</button>
                                                     </form>
                                                 </li>
-                                                </ul>
+                                            </ul>
+                                            @endif
                                             </div>
                                         </td>
-                                        @endif
                                     </tr>
 
                                     <div class="modal fade" id="modal-edit-{{$row->id}}" tabindex="-1" role="dialog" aria-labelledby="modal-edit" aria-hidden="true">
@@ -184,6 +182,42 @@
             </div>
         </div>
     </div>
+
+
+    @if (auth()->user()->role_id == 2)
+    <div class="row">
+        <div class="col-xl-3 col-sm-6 mb-4">
+        </div>
+        <div class="col-xl-6 col-sm-6 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Pembayaran</p>
+                        <div class="col-9">
+                            <div class="numbers">
+                                <h5 class="font-weight-bolder">
+                                    Rp. {{ $total }}
+                                </h5>
+                                {{-- <p class="mb-0">
+                                    <span class="text-success text-sm font-weight-bolder">+5%</span> than last
+                                    month
+                                </p> --}}
+                            </div>
+                        </div>
+                        <div class="col-3 text-end">
+                            <div
+                                class="icon icon-shape bg-gradient-secondary shadow-secondary text-center rounded-circle">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-4">
+        </div>
+    </div>
+    @endif
 
     <div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
         <div class="modal-dialog modal- modal-dialog-centered modal-lg" role="document">

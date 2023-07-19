@@ -56,7 +56,7 @@
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fas fa-dollar-sign text-success text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Pembayaran</span>
+                    <span class="nav-link-text ms-1">Konfirmasi Pembayaran</span>
                 </a>
             </li>
             @if (auth()->user()->role_id == 1)
@@ -66,7 +66,7 @@
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fas fa-file-invoice-dollar text-primary text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Laporan Pembayaran</span>
+                    <span class="nav-link-text ms-1">Laporan Keuangan</span>
                 </a>
             </li>
             <li class="nav-item">
