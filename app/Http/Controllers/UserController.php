@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Notifications\NewUserRegisterNotification;
 
 class UserController extends Controller
 {
@@ -54,6 +55,8 @@ class UserController extends Controller
             'updated_at'=> date('Y-m-d H:i:s'),
         );
         User::create($data);
+        // $notification = User::latest()->first();
+        // $notification->notify(new NewUserRegisterNotification($data));
         return back();
     }
 

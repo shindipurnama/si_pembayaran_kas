@@ -73,7 +73,7 @@
                                                     <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
                                                 </button>
                                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    @if (auth()->user()->role_id == 2)
+                                                    @if (auth()->user()->role_id == 2 && $row->status_bayar == 0)
                                                     <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-bayar-{{$row->id}}">Upload Bukti</a></li>
                                                     @endif
                                                     @if (auth()->user()->role_id == 1)
@@ -342,6 +342,7 @@
                                     <label for="example-text-input" class="form-control-label">Keterangan</label>
                                     <input type="text" class="form-control" required name="keterangan" id="exampleFormControlInput1">
                                     <input type="hidden" class="form-control" required name="status_tagihan" value="0" id="exampleFormControlInput1">
+                                    <input type="hidden" class="form-control" required name="notifikasi_status" value="0" id="exampleFormControlInput1">
                                 </div>
                             </div>
                         </div>

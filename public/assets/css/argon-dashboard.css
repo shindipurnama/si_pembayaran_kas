@@ -4079,8 +4079,8 @@ fieldset:disabled .btn {
   --bs-dropdown-link-color: #67748e;
   --bs-dropdown-link-hover-color: #344767;
   --bs-dropdown-link-hover-bg: #e9ecef;
-  --bs-dropdown-link-active-color: #67748e;
-  --bs-dropdown-link-active-bg: transparent;
+  --bs-dropdown-link-active-color: #596d96;
+  --bs-dropdown-link-active-bg: #ccdbeb;
   --bs-dropdown-link-disabled-color: #6c757d;
   --bs-dropdown-item-padding-x: 1rem;
   --bs-dropdown-item-padding-y: 0.3rem;
@@ -26919,6 +26919,18 @@ pre[class*="language-"] {
   width: 11px;
 }
 
+.badge-warning {
+    color: #1f2d3d;
+    background-color: #ffc107;
+  }
+.navbar-badge {
+    font-size: .6rem;
+    font-weight: 300;
+    padding: 2px 4px;
+    position: absolute;
+    right: 8px;
+    top: -3px;
+  }
 /* MS supports */
 @supports (-ms-overflow-style: none) {
   .ps {

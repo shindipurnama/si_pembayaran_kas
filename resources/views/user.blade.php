@@ -6,6 +6,11 @@
             <button type="button" class="btn btn-block bg-light mb-3" data-bs-toggle="modal" data-bs-target="#modal-default">Tambah Data</button>
         </div>
     </div>
+    @foreach (auth()->user()->unreadNotifications as $notification)
+        <div>
+            {{ $notification->data['message'] }} user id : 1
+        </div>
+    @endforeach
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">

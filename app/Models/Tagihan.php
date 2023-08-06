@@ -19,6 +19,7 @@ class Tagihan extends Model
         'keterangan',
         'jumlah',
         'status_tagihan',
+        'notifikasi_status',
     ];
 
     public function user()

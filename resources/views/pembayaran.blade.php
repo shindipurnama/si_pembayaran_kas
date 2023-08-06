@@ -35,7 +35,9 @@
                                         Jumlah Bayar</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                                         Status</th>
-                                    <th>action</th>
+                                    @if (auth()->user()->role_id == 1)
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">action</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -70,6 +72,7 @@
                                             @endif
                                         </td>
 
+                                        @if (auth()->user()->role_id == 1)
                                         <td class="align-middle">
                                             <div class="dropdown">
                                                 <button class="btn btn-link text-secondary mb-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -90,6 +93,7 @@
                                             @endif
                                             </div>
                                         </td>
+                                        @endif
                                     </tr>
 
                                     <div class="modal fade" id="modal-edit-{{$row->id}}" tabindex="-1" role="dialog" aria-labelledby="modal-edit" aria-hidden="true">
