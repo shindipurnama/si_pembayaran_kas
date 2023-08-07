@@ -27,8 +27,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $tagihan = Tagihan::where('id_user',Auth::user()->id)->get();
-        $notif = Tagihan::where('id_user',Auth::user()->id)->count('id');
+        $notifications = auth()->user()->unreadNotifications;
+        // dd($notifications);
         if(auth()->user()->role_id == 2){
             $belumKonfirmasi = Pembayaran::leftJoin('tagihan','tagihan.id_tagihan','=','pembayaran.id_tagihan')->where(['id_user'=>Auth::user()->id,'status_bayar'=>0])->count('id_pembayaran');
             $totalBayar = Pembayaran::leftJoin('tagihan','tagihan.id_tagihan','=','pembayaran.id_tagihan')->where(['id_user'=>Auth::user()->id,'status_bayar'=>1])->sum('total_bayar');
@@ -39,6 +39,19 @@ class HomeController extends Controller
             $totalBayar = Pembayaran::where('status_bayar',1)->sum('total_bayar');
         }
         $user = User::where(['role_id'=>2,'status_user'=>NULL])->count('id');
-        return view('dashboard',compact('tagihan','notif','belumKonfirmasi','totalTagihan','totalBayar','user'));
+        return view('dashboard',compact('notifications','belumKonfirmasi','totalTagihan','totalBayar','user'));
+    }
+
+    
+    public function markNotification(Request $request)
+    {
+        auth()->user()
+            ->unreadNotifications
+            ->when($request->input('id'), function ($query) use ($request) {
+                return $query->where('id', $request->input('id'));
+            })
+            ->markAsRead();
+
+        return response()->noContent();
     }
 }

@@ -18,8 +18,9 @@ class UserController extends Controller
     public function index()
     {
         //
+        $notifications = auth()->user()->unreadNotifications;
         $users = User::All();
-        return view('user',compact('users'));
+        return view('user',compact('notifications','users'));
     }
 
     /**

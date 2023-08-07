@@ -30,5 +30,6 @@ Route::group(['middleware' => ['auth']], function() {
 
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::post('/mark-as-read', [App\Http\Controllers\HomeController::class, 'markNotification'])->name('markNotification');
 });
 

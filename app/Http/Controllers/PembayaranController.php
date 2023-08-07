@@ -7,6 +7,8 @@ use App\Models\Tagihan;
 use App\Models\Pembayaran;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Events\NewKonfirmasi;
+use App\Events\NewUserBayar;
 
 class PembayaranController extends Controller
 {
@@ -18,6 +20,7 @@ class PembayaranController extends Controller
     public function index()
     {
         //
+        $notifications = auth()->user()->unreadNotifications;
         $tagihan = Tagihan::where('status_tagihan','!=',1)->get();
         if (Auth::user()->role_id == 1){
             $data = Pembayaran::All();
@@ -27,7 +30,7 @@ class PembayaranController extends Controller
 
         $total = Pembayaran::leftJoin('tagihan','tagihan.id_tagihan','=','pembayaran.id_tagihan')->where('id_user',Auth::user()->id)
                 ->sum('total_bayar');
-        return view('pembayaran',compact('data','tagihan','total'));
+        return view('pembayaran',compact('notifications','data','tagihan','total'));
     }
 
     /**
@@ -38,22 +41,24 @@ class PembayaranController extends Controller
     public function create(Request $request)
     {
         //
+        $notifications = auth()->user()->unreadNotifications;
         $startDate =  Carbon::now()->startOfMonth();
         $endDate = Carbon::now()->endOfMonth();
         $data = Pembayaran::where('status_bayar',1)->whereBetween('tgl_bayar', [$startDate, $endDate])->get();
-        $total = Pembayaran::whereBetween('tgl_bayar', [$startDate, $endDate])
+        $total = Pembayaran::where('status_bayar',1)->whereBetween('tgl_bayar', [$startDate, $endDate])
                 ->sum('total_bayar');
-        return view('laporanPembayaran',compact('data','total','startDate','endDate'));
+        return view('laporanPembayaran',compact('notifications','data','total','startDate','endDate'));
     }
     public function report(Request $request)
     {
         //
+        $notifications = auth()->user()->unreadNotifications;
         $startDate =  Carbon::createFromFormat('Y-m-d', $request->input('start'))??Carbon::now()->startOfMonth();
         $endDate = Carbon::createFromFormat('Y-m-d', $request->input('end'))??Carbon::now()->endOfMonth();
         $data = Pembayaran::where('status_bayar',1)->whereBetween('tgl_bayar', [$startDate, $endDate])->get();
-        $total = Pembayaran::whereBetween('tgl_bayar', [$startDate, $endDate])
+        $total = Pembayaran::where('status_bayar',1)->whereBetween('tgl_bayar', [$startDate, $endDate])
                 ->sum('total_bayar');
-        return view('laporanPembayaran',compact('data','total','startDate','endDate'));
+        return view('laporanPembayaran',compact('notifications','data','total','startDate','endDate'));
     }
 
     /**
@@ -87,7 +92,9 @@ class PembayaranController extends Controller
             );
 
             Tagihan::where('id_tagihan',$request->id_tagihan)->update(['status_tagihan'=>1]);
-            Pembayaran::create($data);
+            Pembayaran::create($data);            
+            $notification= Tagihan::where('id_tagihan',$request->id_tagihan)->first();
+            event(new NewUserBayar($tagihan = $notification));
         }else{
             $data = array(
                 'id_pembayaran'=>$id,
@@ -100,6 +107,7 @@ class PembayaranController extends Controller
 
             Tagihan::where('id_tagihan',$request->id_tagihan)->update(['status_tagihan'=>2]);
             Pembayaran::create($data);
+
         }
 
         return back();
@@ -150,6 +158,9 @@ class PembayaranController extends Controller
                 Tagihan::where('id_tagihan',$pembayaran->id_tagihan)->update(['status_tagihan'=>2]);
                 $pembayaran->status_bayar= 1;
                 $pembayaran->save();
+
+                $notification= Tagihan::where('id_tagihan',$pembayaran->id_tagihan)->first();
+                event(new NewKonfirmasi($tagihan = $notification));
                 return back();
             break;
         }

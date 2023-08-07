@@ -8,6 +8,8 @@ use App\Models\Tagihan;
 use DB;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Notifications\NewTagihanNotification;
+use App\Events\NewTagihan;
 
 class TagihanController extends Controller
 {
@@ -18,6 +20,7 @@ class TagihanController extends Controller
      */
     public function index()
     {
+        $notifications = auth()->user()->unreadNotifications;
         $users = User::where('role_id',2)->get();
         $tagihan = DB::table('tagihan')->get()->last()->id_tagihan ?? 0;
         $id = $tagihan + 1;
@@ -41,7 +44,7 @@ class TagihanController extends Controller
         $jmlhKonfrim = Tagihan::where('id_user', Auth::user()->id)->where('status_tagihan',2)
                 ->count('id');
 
-        return view('tagihan',compact('users','id','data','totalBlmBayar','totalBlmKonfrim','totalKonfrim','jmlhBlmBayar','jmlhBlmKonfrim','jmlhKonfrim'));
+        return view('tagihan',compact('notifications','users','id','data','totalBlmBayar','totalBlmKonfrim','totalKonfrim','jmlhBlmBayar','jmlhBlmKonfrim','jmlhKonfrim'));
     }
 
     /**
@@ -52,6 +55,7 @@ class TagihanController extends Controller
     public function create()
     {
         //
+        $notifications = auth()->user()->unreadNotifications;
         $startDate = Carbon::now()->startOfMonth();
         $endDate = Carbon::now()->endOfMonth();
         $data = Tagihan::whereBetween('tgl_tagihan', [$startDate, $endDate])->get();
@@ -67,12 +71,14 @@ class TagihanController extends Controller
                 ->count('id');
         $jmlhKonfrim = Tagihan::whereBetween('tgl_tagihan', [$startDate, $endDate])->where('status_tagihan',2)
                 ->count('id');
-        return view('laporanTagihan',compact('data','totalBlmBayar','totalBlmKonfrim','totalKonfrim','startDate','endDate','jmlhBlmBayar','jmlhBlmKonfrim','jmlhKonfrim'));
+
+        return view('laporanTagihan',compact('notifications','data','totalBlmBayar','totalBlmKonfrim','totalKonfrim','startDate','endDate','jmlhBlmBayar','jmlhBlmKonfrim','jmlhKonfrim'));
     }
 
     public function report(Request $request)
     {
         //
+        $notifications = auth()->user()->unreadNotifications;
         $startDate =  Carbon::createFromFormat('Y-m-d', $request->input('start'))??Carbon::now()->startOfMonth();
         $endDate = Carbon::createFromFormat('Y-m-d', $request->input('end'))??Carbon::now()->endOfMonth();
         $data = Tagihan::whereBetween('tgl_tagihan', [$startDate, $endDate])->get();
@@ -88,7 +94,7 @@ class TagihanController extends Controller
                 ->count('id');
         $jmlhKonfrim = Tagihan::whereBetween('tgl_tagihan', [$startDate, $endDate])->where('status_tagihan',2)
                 ->count('id');
-        return view('laporanTagihan',compact('data','totalBlmBayar','totalBlmKonfrim','totalKonfrim','startDate','endDate','jmlhBlmBayar','jmlhBlmKonfrim','jmlhKonfrim'));
+        return view('laporanTagihan',compact('notifications','data','totalBlmBayar','totalBlmKonfrim','totalKonfrim','startDate','endDate','jmlhBlmBayar','jmlhBlmKonfrim','jmlhKonfrim'));
     }
     /**
      * Store a newly created resource in storage.
@@ -101,6 +107,9 @@ class TagihanController extends Controller
         //
 
         Tagihan::create($request->all());
+        $notification = Tagihan::where('id_tagihan',$request->id_tagihan)->first();
+
+        event(new NewTagihan($tagihan = $notification));
         return back();
     }
 

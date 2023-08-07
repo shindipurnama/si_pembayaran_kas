@@ -15,8 +15,9 @@ class RoleController extends Controller
     public function index()
     {
         //
+        $notifications = auth()->user()->unreadNotifications;
         $roles = Role::All();
-        return view('role',compact('roles'));
+        return view('role',compact('notifications','roles'));
     }
 
     /**

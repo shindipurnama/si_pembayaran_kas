@@ -381,7 +381,7 @@
                                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="customRadio2">
                                 <label class="custom-control-label" for="customRadio2">Dana</label>
                             </div>
-                            <img width="340" src="{{ asset('/assets/img/dana.jpeg')}}">
+                            <img width="340" src="{{ asset('/assets/img/dana.png')}}">
                         </div>
                     </div>
                 </form>
