@@ -359,7 +359,7 @@
 
 
     <div class="modal fade" id="modal-qr" tabindex="-1" role="dialog" aria-labelledby="modal-bayar" aria-hidden="true">
-        <div class="modal-dialog modal- modal-dialog-centered modal-lg" role="document">
+        <div class="modal-dialog modal- modal-dialog-centered modal-md" role="document">
             <div class="modal-content">
             <div class="modal-header">
                 <h6 class="modal-title" id="modal-title-default">Pembayaran</h6>
@@ -369,14 +369,7 @@
             <div class="modal-body">
                 <form>
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="customRadio1">
-                                <label class="custom-control-label" for="customRadio1">Ovo</label>
-                            </div>
-                                <img width="340" src="{{ asset('/assets/img/ovo.jpg')}}">
-                        </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="customRadio2">
                                 <label class="custom-control-label" for="customRadio2">Dana</label>
