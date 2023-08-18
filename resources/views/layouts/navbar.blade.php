@@ -130,6 +130,17 @@
 @section('scripts')
 @push('script')    
     <script>
+        window.onload = function() {
+            // Make an Ajax GET request
+            $.ajax({
+                url: '{{ route('count.notifikasi') }}',
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    console.log(response);
+                }
+            });
+        }
         function sendMarkRequest(id = null) {
             return $.ajax("{{ route('markNotification') }}", {
                 method: 'POST',

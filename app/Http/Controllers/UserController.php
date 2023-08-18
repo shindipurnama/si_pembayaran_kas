@@ -20,6 +20,7 @@ class UserController extends Controller
         //
         $notifications = auth()->user()->unreadNotifications;
         $users = User::All();
+        // dd($notifications);
         return view('user',compact('notifications','users'));
     }
 
@@ -31,7 +32,8 @@ class UserController extends Controller
     public function create()
     {
         //
-        return view('profile');
+        $notifications = auth()->user()->unreadNotifications;
+        return view('profile',compact('notifications'));
     }
 
     /**

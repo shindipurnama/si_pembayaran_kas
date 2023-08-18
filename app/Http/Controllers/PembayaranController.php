@@ -22,6 +22,8 @@ class PembayaranController extends Controller
         //
         $notifications = auth()->user()->unreadNotifications;
         $tagihan = Tagihan::where('status_tagihan','!=',1)->get();
+        $startDate =  Carbon::now()->startOfMonth();
+        $endDate = Carbon::now()->endOfMonth();
         if (Auth::user()->role_id == 1){
             $data = Pembayaran::All();
         }else{
@@ -30,7 +32,7 @@ class PembayaranController extends Controller
 
         $total = Pembayaran::leftJoin('tagihan','tagihan.id_tagihan','=','pembayaran.id_tagihan')->where('id_user',Auth::user()->id)
                 ->sum('total_bayar');
-        return view('pembayaran',compact('notifications','data','tagihan','total'));
+        return view('pembayaran',compact('notifications','data','tagihan','total','startDate','endDate'));
     }
 
     /**
@@ -45,10 +47,12 @@ class PembayaranController extends Controller
         $startDate =  Carbon::now()->startOfMonth();
         $endDate = Carbon::now()->endOfMonth();
         $data = Pembayaran::where('status_bayar',1)->whereBetween('tgl_bayar', [$startDate, $endDate])->get();
+        $data = Pembayaran::leftJoin('tagihan','tagihan.id_tagihan','=','pembayaran.id_tagihan')->where('id_user',Auth::user()->id)->get();
         $total = Pembayaran::where('status_bayar',1)->whereBetween('tgl_bayar', [$startDate, $endDate])
                 ->sum('total_bayar');
         return view('laporanPembayaran',compact('notifications','data','total','startDate','endDate'));
     }
+    
     public function report(Request $request)
     {
         //
@@ -58,7 +62,24 @@ class PembayaranController extends Controller
         $data = Pembayaran::where('status_bayar',1)->whereBetween('tgl_bayar', [$startDate, $endDate])->get();
         $total = Pembayaran::where('status_bayar',1)->whereBetween('tgl_bayar', [$startDate, $endDate])
                 ->sum('total_bayar');
-        return view('laporanPembayaran',compact('notifications','data','total','startDate','endDate'));
+        return view('pembayaran',compact('notifications','data','total','startDate','endDate'));
+    }
+
+    public function filter(Request $request)
+    {
+        //
+        $notifications = auth()->user()->unreadNotifications;
+        $tagihan = Tagihan::where('status_tagihan','!=',1)->get();
+        $startDate =  Carbon::createFromFormat('Y-m-d', $request->input('start'))??Carbon::now()->startOfMonth();
+        $endDate = Carbon::createFromFormat('Y-m-d', $request->input('end'))??Carbon::now()->endOfMonth();
+        $data = Pembayaran::leftJoin('tagihan','tagihan.id_tagihan','=','pembayaran.id_tagihan')
+                ->where('id_user',Auth::user()->id)
+                ->whereBetween('tgl_bayar', [$startDate, $endDate])->get();
+        
+        $total = Pembayaran::leftJoin('tagihan','tagihan.id_tagihan','=','pembayaran.id_tagihan')->where('id_user',Auth::user()->id)
+                ->whereBetween('tgl_bayar', [$startDate, $endDate])
+                ->sum('total_bayar');
+        return view('pembayaran',compact('notifications','data','total','startDate','endDate','tagihan'));
     }
 
     /**

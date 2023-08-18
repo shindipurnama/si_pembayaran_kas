@@ -7,7 +7,26 @@
                 <button type="button" class="btn btn-block bg-light mb-3" data-bs-toggle="modal" data-bs-target="#modal-default">Tambah Data</button>
             </div>
         </div>
+    @else
+        <div class="row justify-content-end">
+            <form method="POST" action="{{ route('pembayaran.filter') }}">
+            @csrf
+                <div class="row">
+                    <div class="col-3"></div>
+                    <div class="col-2">
+                        <input class="form-control" type="date" name="start" value="{{$startDate->format('Y-m-d')}}" id="example-month-input">
+                    </div>
+                    <div class="col-2">
+                        <input class="form-control" type="date" name="end" value="{{$endDate->format('Y-m-d')}}" id="example-month-input">
+                    </div>
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-block bg-light mb-3">Filter Data</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     @endif
+
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">

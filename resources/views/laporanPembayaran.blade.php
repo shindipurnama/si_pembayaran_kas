@@ -23,7 +23,11 @@
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0">
+                    @if (auth()->user()->role_id == 2)
+                    <h6>Laporan Pembayaran</h6>
+                    @else
                     <h6>Laporan Keuangan</h6>
+                    @endif
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive">

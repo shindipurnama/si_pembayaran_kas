@@ -54,4 +54,13 @@ class HomeController extends Controller
 
         return response()->noContent();
     }
+
+    public function getData()
+    {
+        
+        $data = auth()->user()->unreadNotifications;
+
+        return response()->json($data);
+    }
+
 }

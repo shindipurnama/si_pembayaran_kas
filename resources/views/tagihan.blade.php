@@ -171,13 +171,6 @@
                                                         <div class="col-md-3">
                                                             <label for="example-text-input" class="form-control-label">Jenis Pembayaran</label>
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="metode_bayar" value="1" id="customRadio1">
-                                                                <label class="custom-control-label" for="customRadio1">Ovo</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <label for="example-text-input" class="form-control-label"> &nbsp;</label>
-                                                            <div class="form-check">
                                                                 <input class="form-check-input" type="radio" name="metode_bayar" value="2" id="customRadio2">
                                                                 <label class="custom-control-label" for="customRadio2">Dana</label>
                                                             </div>
