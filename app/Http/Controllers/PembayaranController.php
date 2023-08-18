@@ -47,7 +47,6 @@ class PembayaranController extends Controller
         $startDate =  Carbon::now()->startOfMonth();
         $endDate = Carbon::now()->endOfMonth();
         $data = Pembayaran::where('status_bayar',1)->whereBetween('tgl_bayar', [$startDate, $endDate])->get();
-        $data = Pembayaran::leftJoin('tagihan','tagihan.id_tagihan','=','pembayaran.id_tagihan')->where('id_user',Auth::user()->id)->get();
         $total = Pembayaran::where('status_bayar',1)->whereBetween('tgl_bayar', [$startDate, $endDate])
                 ->sum('total_bayar');
         return view('laporanPembayaran',compact('notifications','data','total','startDate','endDate'));
