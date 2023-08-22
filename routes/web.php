@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('login');
 });
 
-Route::get('/qr-data/{$id}', [\App\Http\Controllers\UserController::class, 'show'])->name('qr-data');
+Route::resource('qr-data', \App\Http\Controllers\UserController::class);
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function() {

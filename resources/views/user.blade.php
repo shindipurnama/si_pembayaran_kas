@@ -64,7 +64,7 @@
                                         $userId = $user->id;
                                     @endphp
                                     <td>
-                                        <img  src="data:image/png;base64,{{DNS2D::getBarcodePNG(route('qr-data',  $userId), "QRCODE", 3,3)}}">
+                                        <img src="data:image/png;base64,{{DNS2D::getBarcodePNG(route('qr-data.show',  $userId), "QRCODE", 3,3)}}">
                                     </td>
                                     <td class="align-middle">
                                         <div class="dropdown">

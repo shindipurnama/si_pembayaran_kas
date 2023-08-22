@@ -83,9 +83,9 @@
                                         <i class="fas fa-user me-3" style="color: primary;"></i>
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="text-sm font-weight-normal mb-1" style="color: primary;">
-                                            <span class="font-weight-bold">Profile</span>
-                                        </h6>
+                                        <h5 class="text-sm font-weight-normal mb-1" style="color: primary;">
+                                            <span class="font-weight-bold" style="color: primary;">Profile</span>
+                                        </h5>
                                     </div>
                                 </div>
                             </a>
@@ -101,9 +101,9 @@
                                             <i class="fas fa-power-off  me-3" style="color: red;"></i>
                                         </div>
                                         <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="text-sm font-weight-normal mb-1" style="color: red;">
-                                                <span class="font-weight-bold">Logout</span>
-                                            </h6>
+                                            <h5 class="text-sm font-weight-normal mb-1" style="color: red;">
+                                                <span class="font-weight-bold" style="color: primary;">Logout</span>
+                                            </h5>
                                         </div>
                                     </div>
                                 </a>

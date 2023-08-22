@@ -108,7 +108,7 @@ class PembayaranController extends Controller
                 'bukti_bayar'=>'/app-assets/assets/img/bukti/'.$img_name,
                 'tgl_bayar'=>$request->tgl_bayar,
                 'status_bayar'=>$request->status_bayar,
-                'metode_bayar'=>$request->metode_bayar,
+                'metode_bayar'=>$request->metode_bayar ?? 2,
             );
 
             Tagihan::where('id_tagihan',$request->id_tagihan)->update(['status_tagihan'=>1]);

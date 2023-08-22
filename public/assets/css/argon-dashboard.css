@@ -23486,7 +23486,7 @@ hr.horizontal.gray-light {
 
 .navbar-vertical.bg-default .navbar-nav .nav-item h6,
 .navbar-vertical.bg-default .navbar-nav .nav-item .h6 {
-  color: #fff;
+  color: var(--bs-primary);
 }
 
 .navbar-vertical.bg-default .sidenav-header .navbar-brand {
@@ -26927,9 +26927,11 @@ pre[class*="language-"] {
     font-size: .6rem;
     font-weight: 300;
     padding: 2px 4px;
-    position: absolute;
+    position: relative;
+    /* position: absolute;
+    pos */
     right: 8px;
-    top: -3px;
+    top: -6px;
   }
 /* MS supports */
 @supports (-ms-overflow-style: none) {

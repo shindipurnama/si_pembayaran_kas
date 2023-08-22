@@ -98,8 +98,54 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         //
+        if(isset($request->foto)){
+            $image = $request->foto;
+            // dd($request->foto);
+            $img_name ='user_'.$id.'.'.$image->extension();
 
-        $user = User::find($id)->update($request->all());
+            $filePath2 = public_path('/app-assets/assets/img/users');
+            // dd($filePath2);
+            $image->move($filePath2, $img_name);
+            if(isset($request->password)){
+                $data = array(
+                    'name'=>$request->name,
+                    'email'=>$request->email,
+                    'alamat'=>$request->alamat,
+                    'no_tlp'=>$request->no_tlp,
+                    'password'=>Hash::make($request->password),
+                    'qr_code'=>'/app-assets/assets/img/users/'.$img_name,
+                );
+            }else{
+                $data = array(
+                    'name'=>$request->name,
+                    'email'=>$request->email,
+                    'alamat'=>$request->alamat,
+                    'no_tlp'=>$request->no_tlp,
+                    'qr_code'=>'/app-assets/assets/img/users/'.$img_name,
+                );
+            }
+            User::find($id)->update($data);
+        }else{
+            if(isset($request->password)){
+                $data = array(
+                    'name'=>$request->name,
+                    'email'=>$request->email,
+                    'alamat'=>$request->alamat,
+                    'no_tlp'=>$request->no_tlp,
+                    'password'=>Hash::make($request->password),
+                );
+            }else{
+                $data = array(
+                    'name'=>$request->name,
+                    'email'=>$request->email,
+                    'alamat'=>$request->alamat,
+                    'no_tlp'=>$request->no_tlp,
+                );
+            }
+            User::find($id)->update($data);
+
+        }
+
         return back();
     }
 
