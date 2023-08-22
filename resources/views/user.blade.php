@@ -61,10 +61,10 @@
                                         <p class="text-sm font-weight-bold mb-0">{{$user->role->role}}</p>
                                     </td>
                                     @php
-                                        $userId = $user->id.' - '.$user->name;
+                                        $userId = $user->id;
                                     @endphp
                                     <td>
-                                        <img  src="data:image/png;base64,{{DNS2D::getBarcodePNG($userId, "QRCODE", 3,3)}}">
+                                        <img  src="data:image/png;base64,{{DNS2D::getBarcodePNG(route('qr-data',  $userId), "QRCODE", 3,3)}}">
                                     </td>
                                     <td class="align-middle">
                                         <div class="dropdown">
